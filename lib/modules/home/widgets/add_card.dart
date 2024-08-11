@@ -23,7 +23,7 @@ class AddCard extends StatelessWidget {
       height: squareWidth / 2,
       margin: EdgeInsets.all(3.0.wp),
       child: InkWell(
-        onTap: () => showAddCardDialog(),
+        onTap: () => buildAddCardDialog(),
         child: DottedBorder(
             color: Colors.grey[400]!,
             dashPattern: const [8, 4],
@@ -38,13 +38,13 @@ class AddCard extends StatelessWidget {
     );
   }
 
-  void showAddCardDialog() async {
+  void buildAddCardDialog() async {
     await Get.defaultDialog(
         titlePadding: EdgeInsets.symmetric(vertical: 5.0.wp),
         radius: 5,
         title: 'Task type',
         content: Form(
-          key: homeController.fromKey,
+          key: homeController.formKey,
           child: Column(
             children: [
               /**
@@ -90,9 +90,9 @@ class AddCard extends StatelessWidget {
                 backgroundColor: Colors.white,
                 showCheckmark: false,
                 label: e,
-                selected: homeController.chipIndex.value == index,
+                selected: homeController.getChipIndex == index,
                 onSelected: (selected) {
-                  homeController.chipIndex.value = selected ? index : 0;
+                  homeController.setChipIndex(selected ? index : 0);
                 },
                 side: const BorderSide(color: Colors.white),
               );
@@ -103,19 +103,19 @@ class AddCard extends StatelessWidget {
   showCreateTaskButton() {
     return ElevatedButton(
       onPressed: () => createTaskButton(),
-      child: const Text('Confirm'),
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         minimumSize: const Size(150, 40),
         backgroundColor: Colors.blue[500],
       ),
+      child: const Text('Confirm'),
     );
   }
 
   createTaskButton() {
-    if (homeController.fromKey.currentState!.validate()) {
-      int icon = icons[homeController.chipIndex.value].icon!.codePoint;
-      String color = icons[homeController.chipIndex.value].color!.toHex();
+    if (homeController.formKey.currentState!.validate()) {
+      int icon = icons[homeController.getChipIndex].icon!.codePoint;
+      String color = icons[homeController.getChipIndex].color!.toHex();
       var task = Task(
           title: homeController.editController.text, icon: icon, color: color);
       Get.back();

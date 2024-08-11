@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_todo_app/core/utils/extensions.dart';
+import 'package:flutter_getx_todo_app/modules/detail/view.dart';
 import 'package:flutter_getx_todo_app/modules/home/controller.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -19,25 +20,33 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final squareWidth = Get.width - 12.0.wp;
 
-    return Container(
-      width: squareWidth / 2,
-      height: squareWidth / 2,
-      margin: EdgeInsets.all(3.0.wp),
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(
-            color: Colors.grey[300]!,
-            blurRadius: 250,
-            offset: const Offset(0, 10))
-      ]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          showProgressIndicator(),
-          showIcon(),
-          showTaskInfo()
-        ],
+    return GestureDetector(
+      onTap: () => Get.to(() => DetailPage(task: task,)),
+      child: Container(
+        width: squareWidth / 2,
+        height: squareWidth / 2,
+        margin: EdgeInsets.all(3.0.wp),
+        decoration: BoxDecoration(color: Colors.white, boxShadow: [
+          BoxShadow(
+              color: Colors.grey[300]!,
+              blurRadius: 250,
+              offset: const Offset(0, 10))
+        ]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            showProgressIndicator(),
+            showIcon(),
+            showTaskInfo()
+          ],
+        ),
       ),
     );
+  }
+
+  handleTaskClick(Task task) {
+    homeController.changeTodos(task.todos ?? []);
+    Get.to(() => DetailPage(task: task,));
   }
 
   showProgressIndicator() {

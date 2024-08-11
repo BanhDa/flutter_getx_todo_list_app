@@ -1,10 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_getx_todo_app/data/models/todo.dart';
 
 class Task extends Equatable {
   final String title;
   final int icon;
   final String color;
-  final List<dynamic>? todos;
+  final List<Todo>? todos;
 
   const Task(
       {required this.title,
@@ -13,7 +14,7 @@ class Task extends Equatable {
       this.todos});
 
   Task copyWith(
-          {String? title, int? icon, String? color, List<dynamic>? todos}) =>
+          {String? title, int? icon, String? color, List<Todo>? todos}) =>
       Task(
           title: title ?? this.title,
           icon: icon ?? this.icon,
@@ -35,4 +36,13 @@ class Task extends Equatable {
 
   @override
   List<Object?> get props => [title, icon, color];
+
+  bool containTodoTitle(String todoTitle) {
+    return todos?.any((todo) => todo.title == title) ?? false;
+  }
+
+  void addTodo(String todoTitle) {
+    var todo = Todo(title: todoTitle);
+    todos?.add(todo);
+  }
 }
