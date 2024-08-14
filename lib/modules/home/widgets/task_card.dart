@@ -21,7 +21,7 @@ class TaskCard extends StatelessWidget {
     final squareWidth = Get.width - 12.0.wp;
 
     return GestureDetector(
-      onTap: () => Get.to(() => DetailPage(task: task,)),
+      onTap: () => handleTaskClick(task),
       child: Container(
         width: squareWidth / 2,
         height: squareWidth / 2,
@@ -45,7 +45,7 @@ class TaskCard extends StatelessWidget {
   }
 
   handleTaskClick(Task task) {
-    homeController.changeTodos(task.todos ?? []);
+    homeController.setTask(task);
     Get.to(() => DetailPage(task: task,));
   }
 

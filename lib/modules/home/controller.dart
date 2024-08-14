@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_getx_todo_app/data/models/task.dart';
 import 'package:flutter_getx_todo_app/data/models/todo.dart';
 import 'package:flutter_getx_todo_app/data/services/storages/repository.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-
   TaskRepository taskRepository;
 
   HomeController({required this.taskRepository});
@@ -93,11 +93,8 @@ class HomeController extends GetxController {
       return false;
     }
     task.addTodo(todoTitle);
-
-    var newTask = task.copyWith(todos: task.todos);
-    var oldIndex = _tasks.indexOf(task);
-    _tasks[oldIndex] = newTask;
     _tasks.refresh();
+    changeTodos(task.todos ?? []);
     return true;
   }
 
@@ -105,7 +102,7 @@ class HomeController extends GetxController {
     doingTodos.clear();
     doneTodos.clear();
 
-    var todo;
+    Todo todo;
     for (int i = 0; i < selects.length; i++) {
       todo = selects[i];
       if (todo.done == true) {
@@ -114,5 +111,28 @@ class HomeController extends GetxController {
         doingTodos.add(todo);
       }
     }
+  }
+
+  addTodo(String title) {
+    Todo doingTodo = Todo(title: title, done: false);
+    if (doingTodos.any((todo) => doingTodo == todo)) {
+      return false;
+    }
+    Todo doneTodo = Todo(title: title, done: true);
+    if (doneTodos.any((todo) => doneTodo == todo)) {
+      return false;
+    }
+    doingTodos.add(doingTodo);
+    return true;
+  }
+
+  updateTodos() {
+    List<Todo> newTodos = [];
+    newTodos.addAll([...doingTodos, ...doneTodos]);
+    _task.value?.addTodos(newTodos);
+    Task? newTask = _task.value?.copyWith(todos: newTodos);
+    var oldIndex = _tasks.indexOf(_task.value);
+    _tasks[oldIndex] = newTask!;
+    _tasks.refresh();
   }
 }

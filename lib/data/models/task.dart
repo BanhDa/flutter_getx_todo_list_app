@@ -5,13 +5,15 @@ class Task extends Equatable {
   final String title;
   final int icon;
   final String color;
-  final List<Todo>? todos;
+  late List<Todo>? todos;
 
-  const Task(
+   Task(
       {required this.title,
       required this.icon,
       required this.color,
-      this.todos});
+      todos}) {
+    this.todos = todos ?? [];
+  }
 
   Task copyWith(
           {String? title, int? icon, String? color, List<Todo>? todos}) =>
@@ -38,11 +40,17 @@ class Task extends Equatable {
   List<Object?> get props => [title, icon, color];
 
   bool containTodoTitle(String todoTitle) {
-    return todos?.any((todo) => todo.title == title) ?? false;
+    return todos?.any((todo)  {
+      return todo.title == todoTitle;
+    }) ?? false;
   }
 
-  void addTodo(String todoTitle) {
+  addTodo(String todoTitle) {
     var todo = Todo(title: todoTitle);
     todos?.add(todo);
+  }
+
+  addTodos(List<Todo> todos) {
+    this.todos = todos;
   }
 }
