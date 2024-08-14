@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_todo_app/core/utils/extensions.dart';
+import 'package:flutter_getx_todo_app/modules/detail/widgets/doing_list.dart';
 import 'package:flutter_getx_todo_app/modules/home/controller.dart';
 import 'package:get/get.dart';
 
@@ -39,7 +40,8 @@ class DetailPage extends StatelessWidget {
                 showDoingTasks()
               ],
             ),
-          )
+          ),
+          DoingList()
         ],
       ),
     ));

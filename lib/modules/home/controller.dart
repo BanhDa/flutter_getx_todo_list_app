@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_todo_app/data/models/task.dart';
 import 'package:flutter_getx_todo_app/data/models/todo.dart';
@@ -134,5 +135,16 @@ class HomeController extends GetxController {
     var oldIndex = _tasks.indexOf(_task.value);
     _tasks[oldIndex] = newTask!;
     _tasks.refresh();
+  }
+
+  doneTodo(String title) {
+    Todo doingTodo = Todo(title: title, done: false);
+    int index = doingTodos.indexWhere((element) => doingTodo == element);
+    doingTodos.removeAt(index);
+
+    doneTodos.add(Todo(title: title, done: true));
+
+    doneTodos.refresh();
+    doingTodos.refresh();
   }
 }
