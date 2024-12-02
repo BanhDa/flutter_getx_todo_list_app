@@ -1,5 +1,4 @@
-
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 const purple = Color(0xFF756BFC);
 const pink = Color(0xFFF1A39A);
